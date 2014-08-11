@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Activity Tracker</string>
+    <string name="log_in_required">Activity Tracker uses Google Fit to save and explore your activity. Please log in to continue.</string>
+    <string name="menu_sign_out">Sign out</string>
+    <string name="current_activity">"Got activity %1$s with confidence %2$.0f%%</string>
+    <string name="currently">You are currently %s</string>
+    <string name="confidence">%.0f%%</string>
+    <array name="detected_activity">
+        <item>driving</item>
+        <item>biking</item>
+        <item>on foot</item>
+        <item>not moving</item>
+        <item>confusing me</item>
+        <item>looking at your phone</item>
+        <item></item>
+        <item>walking</item>
+        <item>running</item>
+    </array>
+</resources>

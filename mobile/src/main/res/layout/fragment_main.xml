@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginBottom="@dimen/content_vertical_margin"
+              android:layout_marginEnd="@dimen/content_horizontal_margin"
+              android:layout_marginLeft="@dimen/content_horizontal_margin"
+              android:layout_marginRight="@dimen/content_horizontal_margin"
+              android:layout_marginStart="@dimen/content_horizontal_margin"
+              android:layout_marginTop="@dimen/content_vertical_margin"
+              android:orientation="vertical"
+              tools:context="com.ianhanniballake.activitytracker.MainFragment">
+    <TextView
+        android:id="@+id/current_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
