@@ -1,7 +1,6 @@
 package com.ianhanniballake.activitytracker;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 public class MainFragment extends Fragment implements GooglePlayServicesActivity.ConnectionListener {
     private static final String TAG = MainFragment.class.getSimpleName();
     private TextView mCurrentActivityView;
+    private int mCurrentActivity = -1;
+    private float mConfidence;
     private DataSourceListener mDataSourceListener = new DataSourceListener() {
         @Override
         public void onEvent(DataPoint dataPoint) {
@@ -43,8 +44,6 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
             });
         }
     };
-    private int mCurrentActivity = -1;
-    private float mConfidence;
 
     @Override
     public void onAttach(final Activity activity) {
@@ -52,7 +51,7 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
         try {
             GooglePlayServicesActivity googlePlayServicesActivity = (GooglePlayServicesActivity) activity;
             googlePlayServicesActivity.setConnectionListener(this);
-        } catch( ClassCastException e) {
+        } catch (ClassCastException e) {
             throw new IllegalStateException(activity.getClass().getSimpleName() + " must extend " +
                     GooglePlayServicesActivity.class.getSimpleName(), e);
         }
@@ -93,24 +92,7 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
                 }
             }
         });
-        SensorRequest serviceReq = new SensorRequest.Builder()
-                .setDataType(DataTypes.ACTIVITY_SAMPLE)
-                .build();
-        Intent intent = new Intent(getActivity(), SensorListenerIntentService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-        PendingResult<Status> serviceRegResult = Fitness.SensorsApi.register(googleApiClient, serviceReq,
-                pendingIntent);
-        serviceRegResult.setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(final Status status) {
-                if (status.isSuccess()) {
-                    Log.d(TAG, "Service Sensor listener registered successfully");
-                } else {
-                    Log.e(TAG, "Service Sensor listener failed to register: " + status.getStatusMessage());
-                }
-            }
-        });
+        getActivity().startService(new Intent(getActivity(), SensorListenerRegisterService.class));
     }
 
     @Override
