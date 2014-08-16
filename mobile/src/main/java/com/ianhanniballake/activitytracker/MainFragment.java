@@ -39,7 +39,9 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
             mCurrentActivityView.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCurrentActivityView.setText(getString(R.string.current_activity, mCurrentActivity, mConfidence));
+                    String text = getString(R.string.current_activity, getResources().getStringArray(R.array
+                            .detected_activity)[mCurrentActivity], mConfidence);
+                    mCurrentActivityView.setText(text);
                 }
             });
         }
@@ -63,7 +65,9 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mCurrentActivityView = (TextView) view.findViewById(R.id.current_activity);
         if (mCurrentActivity != -1) {
-            mCurrentActivityView.setText(getString(R.string.current_activity, mCurrentActivity, mConfidence));
+            String text = getString(R.string.current_activity, getResources().getStringArray(R.array
+                    .detected_activity)[mCurrentActivity], mConfidence);
+            mCurrentActivityView.setText(text);
         }
         return view;
     }
