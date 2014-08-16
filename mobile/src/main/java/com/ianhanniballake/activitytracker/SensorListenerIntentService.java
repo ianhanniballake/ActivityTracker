@@ -13,8 +13,8 @@ import com.google.android.gms.fitness.DataPoint;
 import com.google.android.gms.fitness.DataTypes;
 
 public class SensorListenerIntentService extends IntentService {
+    public static final int NOTIFICATION_ID = 0;
     private static final String TAG = SensorListenerIntentService.class.getSimpleName();
-    private static final int NOTIFICATION_ID = 0;
 
     public SensorListenerIntentService() {
         super(TAG);

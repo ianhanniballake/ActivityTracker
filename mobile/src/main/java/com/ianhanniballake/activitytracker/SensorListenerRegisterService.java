@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -20,6 +21,7 @@ import com.google.android.gms.fitness.SensorRequest;
 public class SensorListenerRegisterService extends Service implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SensorListenerRegisterService.class.getSimpleName();
+    private NotificationManagerCompat mNotificationManager;
     private GoogleApiClient mGoogleApiClient;
 
     @Override
@@ -31,6 +33,7 @@ public class SensorListenerRegisterService extends Service implements GoogleApiC
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate");
+        mNotificationManager = NotificationManagerCompat.from(this);
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.API)
                 .addScope(FitnessScopes.SCOPE_ACTIVITY_READ_WRITE)
@@ -67,6 +70,7 @@ public class SensorListenerRegisterService extends Service implements GoogleApiC
                     Log.d(TAG, "Service Sensor listener registered successfully");
                 } else {
                     Log.e(TAG, "Service Sensor listener failed to register: " + status.getStatusMessage());
+                    mNotificationManager.cancel(SensorListenerIntentService.NOTIFICATION_ID);
                 }
                 stopSelf();
             }
@@ -82,6 +86,7 @@ public class SensorListenerRegisterService extends Service implements GoogleApiC
     @Override
     public void onConnectionFailed(final ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed: " + connectionResult.getErrorCode());
+        mNotificationManager.cancel(SensorListenerIntentService.NOTIFICATION_ID);
         stopSelf();
     }
 

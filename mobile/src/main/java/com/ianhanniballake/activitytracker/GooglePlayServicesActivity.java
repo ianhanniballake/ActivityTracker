@@ -23,13 +23,6 @@ import com.google.android.gms.fitness.FitnessScopes;
 public abstract class GooglePlayServicesActivity extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-    public interface ConnectionListener {
-        public void onConnected(GoogleApiClient googleApiClient);
-
-        public void onDisconnecting(GoogleApiClient googleApiClient);
-
-        public void onDisconnected();
-    }
     /**
      * Request code for auto Google Play Services error resolution.
      */
@@ -235,7 +228,10 @@ public abstract class GooglePlayServicesActivity extends ActionBarActivity imple
             // errors until the user is signed in, or they cancel.
             resolveSignInErrors();
         } else {
-            mConnectionListener = null;
+            if (mConnectionListener != null) {
+                mConnectionListener.onDisconnected();
+                mConnectionListener = null;
+            }
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, new LoggedOutFragment())
                     .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -272,5 +268,13 @@ public abstract class GooglePlayServicesActivity extends ActionBarActivity imple
             Log.e(TAG, "Exception while starting resolution activity", e);
             retryConnecting();
         }
+    }
+
+    public interface ConnectionListener {
+        public void onConnected(GoogleApiClient googleApiClient);
+
+        public void onDisconnecting(GoogleApiClient googleApiClient);
+
+        public void onDisconnected();
     }
 }

@@ -106,6 +106,6 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
 
     @Override
     public void onDisconnected() {
-        // Too late to do anything
+        getActivity().startService(new Intent(getActivity(), SensorListenerRegisterService.class));
     }
 }
