@@ -73,7 +73,7 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
     }
 
     @Override
-    public void onConnected(GoogleApiClient googleApiClient) {
+    public void onConnected(final GoogleApiClient googleApiClient) {
         // 2. Build a sensor registration request object
         SensorRequest req = new SensorRequest.Builder()
                 .setDataType(DataTypes.ACTIVITY_SAMPLE)
@@ -97,6 +97,19 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
             }
         });
         getActivity().startService(new Intent(getActivity(), SensorListenerRegisterService.class));
+        // Make sure we are subscribed and capturing activity data
+        PendingResult<Status> subscribePendingResult =
+                Fitness.RecordingApi.subscribe(googleApiClient, DataTypes.ACTIVITY_SAMPLE);
+        subscribePendingResult.setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(final Status status) {
+                if (status.isSuccess()) {
+                    Log.i(TAG, "Successfully subscribed!");
+                } else {
+                    Log.i(TAG, "There was a problem subscribing.");
+                }
+            }
+        });
     }
 
     @Override
