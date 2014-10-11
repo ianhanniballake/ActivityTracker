@@ -13,10 +13,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.fitness.DataTypes;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessScopes;
-import com.google.android.gms.fitness.SensorRequest;
+import com.google.android.gms.fitness.data.DataTypes;
+import com.google.android.gms.fitness.request.SensorRequest;
 
 public class SensorListenerRegisterService extends Service implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {

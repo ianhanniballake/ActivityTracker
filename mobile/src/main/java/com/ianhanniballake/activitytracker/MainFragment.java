@@ -14,11 +14,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.fitness.DataPoint;
-import com.google.android.gms.fitness.DataSourceListener;
-import com.google.android.gms.fitness.DataTypes;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.SensorRequest;
+import com.google.android.gms.fitness.data.DataPoint;
+import com.google.android.gms.fitness.data.DataTypes;
+import com.google.android.gms.fitness.data.Fields;
+import com.google.android.gms.fitness.request.DataSourceListener;
+import com.google.android.gms.fitness.request.SensorRequest;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,8 +31,8 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
     private DataSourceListener mDataSourceListener = new DataSourceListener() {
         @Override
         public void onEvent(DataPoint dataPoint) {
-            mCurrentActivity = dataPoint.getValue(DataTypes.Fields.ACTIVITY).asInt();
-            mConfidence = dataPoint.getValue(DataTypes.Fields.CONFIDENCE).asFloat();
+            mCurrentActivity = dataPoint.getValue(Fields.ACTIVITY).asInt();
+            mConfidence = dataPoint.getValue(Fields.CONFIDENCE).asFloat();
             Log.d(TAG, "Got activity " + mCurrentActivity + " with confidence " + mConfidence);
             if (mCurrentActivityView == null) {
                 return;

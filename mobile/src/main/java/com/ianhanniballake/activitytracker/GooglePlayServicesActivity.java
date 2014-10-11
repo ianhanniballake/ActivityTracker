@@ -144,7 +144,7 @@ public abstract class GooglePlayServicesActivity extends ActionBarActivity imple
                 if (mConnectionListener != null) {
                     mConnectionListener.onDisconnecting(mGoogleApiClient);
                 }
-                Fitness.HistoryApi.disableFit(mGoogleApiClient)
+                Fitness.ConfigApi.disableFit(mGoogleApiClient)
                         .setResultCallback(new ResultCallback<Status>() {
                             @Override
                             public void onResult(final Status status) {
