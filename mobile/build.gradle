@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 'android-L'
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.1"
 
     defaultConfig {
         applicationId "com.ianhanniballake.activitytracker"
-        minSdkVersion 'L'
-        targetSdkVersion 'L'
+        minSdkVersion 21
+        targetSdkVersion 21
         versionCode 1
         versionName "0.1"
     }
@@ -20,6 +20,6 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:21.0.0-rc1"
+    compile "com.android.support:appcompat-v7:21.0.0"
     compile 'com.google.android.gms:play-services:6.1.11'
 }

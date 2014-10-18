@@ -1,7 +1,6 @@
 package com.ianhanniballake.activitytracker;
 
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
@@ -43,7 +42,7 @@ public class SensorListenerIntentService extends IntentService {
                 .setContentText(text)
                 .setContentInfo(getString(R.string.confidence, confidence))
                 .setContentIntent(pendingIntent)
-                .setCategory(Notification.CATEGORY_STATUS)
+                .setCategory(NotificationCompat.CATEGORY_STATUS)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setOngoing(true);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
