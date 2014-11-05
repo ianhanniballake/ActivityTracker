@@ -14,11 +14,12 @@ import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessScopes;
 
 public abstract class GooglePlayServicesActivity extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -84,7 +85,7 @@ public abstract class GooglePlayServicesActivity extends ActionBarActivity imple
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(Fitness.API)
-                    .addScope(FitnessScopes.SCOPE_ACTIVITY_READ_WRITE)
+                    .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();

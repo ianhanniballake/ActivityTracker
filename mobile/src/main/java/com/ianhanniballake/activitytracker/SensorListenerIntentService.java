@@ -9,7 +9,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.Fields;
+import com.google.android.gms.fitness.data.Field;
 
 public class SensorListenerIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 0;
@@ -26,8 +26,8 @@ public class SensorListenerIntentService extends IntentService {
             Log.w(TAG, "Null DataPoint");
             return;
         }
-        int activity = dataPoint.getValue(Fields.ACTIVITY).asInt();
-        float confidence = dataPoint.getValue(Fields.CONFIDENCE).asFloat();
+        int activity = dataPoint.getValue(Field.FIELD_ACTIVITY).asInt();
+        float confidence = dataPoint.getValue(Field.FIELD_CONFIDENCE).asFloat();
         Log.d(TAG, "Got activity " + activity + " with confidence " + confidence);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         Intent launchIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());

@@ -16,9 +16,9 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.DataTypes;
-import com.google.android.gms.fitness.data.Fields;
-import com.google.android.gms.fitness.request.DataSourceListener;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.data.Field;
+import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
 
 import java.util.concurrent.TimeUnit;
@@ -28,11 +28,11 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
     private TextView mCurrentActivityView;
     private int mCurrentActivity = -1;
     private float mConfidence;
-    private DataSourceListener mDataSourceListener = new DataSourceListener() {
+    private OnDataPointListener mDataSourceListener = new OnDataPointListener() {
         @Override
-        public void onEvent(DataPoint dataPoint) {
-            mCurrentActivity = dataPoint.getValue(Fields.ACTIVITY).asInt();
-            mConfidence = dataPoint.getValue(Fields.CONFIDENCE).asFloat();
+        public void onDataPoint(final DataPoint dataPoint) {
+            mCurrentActivity = dataPoint.getValue(Field.FIELD_ACCURACY).asInt();
+            mConfidence = dataPoint.getValue(Field.FIELD_CONFIDENCE).asFloat();
             Log.d(TAG, "Got activity " + mCurrentActivity + " with confidence " + mConfidence);
             if (mCurrentActivityView == null) {
                 return;
@@ -77,7 +77,7 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
     public void onConnected(final GoogleApiClient googleApiClient) {
         // 2. Build a sensor registration request object
         SensorRequest req = new SensorRequest.Builder()
-                .setDataType(DataTypes.ACTIVITY_SAMPLE)
+                .setDataType(DataType.TYPE_ACTIVITY_SAMPLE)
                 .setAccuracyMode(SensorRequest.ACCURACY_MODE_HIGH)
                 .setSamplingRate(1, TimeUnit.SECONDS)
                 .build();
@@ -85,7 +85,7 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
         // - The Google API client object
         // - The sensor registration request object
         // - The listener object
-        PendingResult<Status> regResult = Fitness.SensorsApi.register(googleApiClient, req, mDataSourceListener);
+        PendingResult<Status> regResult = Fitness.SensorsApi.add(googleApiClient, req, mDataSourceListener);
         // 4. Check the result asynchronously
         regResult.setResultCallback(new ResultCallback<Status>() {
             @Override
@@ -100,7 +100,7 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
         getActivity().startService(new Intent(getActivity(), SensorListenerRegisterService.class));
         // Make sure we are subscribed and capturing activity data
         PendingResult<Status> subscribePendingResult =
-                Fitness.RecordingApi.subscribe(googleApiClient, DataTypes.ACTIVITY_SAMPLE);
+                Fitness.RecordingApi.subscribe(googleApiClient, DataType.TYPE_ACTIVITY_SAMPLE);
         subscribePendingResult.setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(final Status status) {
@@ -115,7 +115,7 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
 
     @Override
     public void onDisconnecting(GoogleApiClient googleApiClient) {
-        Fitness.SensorsApi.unregister(googleApiClient, mDataSourceListener);
+        Fitness.SensorsApi.remove(googleApiClient, mDataSourceListener);
     }
 
     @Override

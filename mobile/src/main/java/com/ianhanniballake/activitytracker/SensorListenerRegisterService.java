@@ -9,13 +9,14 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessScopes;
-import com.google.android.gms.fitness.data.DataTypes;
+import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.request.SensorRequest;
 
 public class SensorListenerRegisterService extends Service implements GoogleApiClient.ConnectionCallbacks,
@@ -36,7 +37,7 @@ public class SensorListenerRegisterService extends Service implements GoogleApiC
         mNotificationManager = NotificationManagerCompat.from(this);
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.API)
-                .addScope(FitnessScopes.SCOPE_ACTIVITY_READ_WRITE)
+                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
@@ -57,11 +58,11 @@ public class SensorListenerRegisterService extends Service implements GoogleApiC
     public void onConnected(final Bundle connectionHint) {
         Log.d(TAG, "onConnected");
         SensorRequest sensorRequest = new SensorRequest.Builder()
-                .setDataType(DataTypes.ACTIVITY_SAMPLE)
+                .setDataType(DataType.TYPE_ACTIVITY_SAMPLE)
                 .build();
         Intent intent = new Intent(this, SensorListenerIntentService.class);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        PendingResult<Status> serviceRegResult = Fitness.SensorsApi.register(mGoogleApiClient, sensorRequest,
+        PendingResult<Status> serviceRegResult = Fitness.SensorsApi.add(mGoogleApiClient, sensorRequest,
                 pendingIntent);
         serviceRegResult.setResultCallback(new ResultCallback<Status>() {
             @Override
