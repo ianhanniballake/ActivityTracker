@@ -31,7 +31,7 @@ public class MainFragment extends Fragment implements GooglePlayServicesActivity
     private OnDataPointListener mDataSourceListener = new OnDataPointListener() {
         @Override
         public void onDataPoint(final DataPoint dataPoint) {
-            mCurrentActivity = dataPoint.getValue(Field.FIELD_ACCURACY).asInt();
+            mCurrentActivity = dataPoint.getValue(Field.FIELD_ACTIVITY).asInt();
             mConfidence = dataPoint.getValue(Field.FIELD_CONFIDENCE).asFloat();
             Log.d(TAG, "Got activity " + mCurrentActivity + " with confidence " + mConfidence);
             if (mCurrentActivityView == null) {
