@@ -21,5 +21,5 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:21.0.3"
-    compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'com.google.android.gms:play-services-fitness:6.5.87'
 }
