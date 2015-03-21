@@ -84,7 +84,8 @@ public abstract class GooglePlayServicesActivity extends ActionBarActivity imple
         super.onStart();
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addApi(Fitness.API)
+                    .addApi(Fitness.SENSORS_API)
+                    .addApi(Fitness.RECORDING_API)
                     .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)

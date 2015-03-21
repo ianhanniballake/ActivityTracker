@@ -36,7 +36,7 @@ public class SensorListenerRegisterService extends Service implements GoogleApiC
         Log.d(TAG, "onCreate");
         mNotificationManager = NotificationManagerCompat.from(this);
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Fitness.API)
+                .addApi(Fitness.SENSORS_API)
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
